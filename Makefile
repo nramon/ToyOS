@@ -2,19 +2,21 @@
 # Run `make help` to see the available targets.
 
 SOURCES = $(shell find toy_os tests -name '*.c' -o -name '*.h')
-SCRIPTS = build.sh run.sh test.sh
+SCRIPTS = build.sh test.sh
+QEMU = qemu-system-i386
+QEMUFLAGS =
 
 .PHONY: all run debug unit coverage test lint format hooks clean help
 
 all: ## Build the kernel and the ISO (uses Docker if there is no local toolchain).
 	./build.sh
 
-run: all ## Build and boot Toy OS in QEMU.
-	./run.sh
+run: all ## Build and boot Toy OS in QEMU (extra QEMU arguments: QEMUFLAGS=...).
+	$(QEMU) -cdrom toy_os.iso $(QEMUFLAGS)
 
 debug: all ## Boot Toy OS in QEMU paused, waiting for GDB on port 1234.
 	@echo "Attach with: gdb toy_os/toy_os.bin -ex 'target remote :1234'"
-	./run.sh -s -S
+	$(MAKE) --no-print-directory run QEMUFLAGS="-s -S"
 
 unit: ## Build and run the host-side unit tests.
 	$(CC) -std=gnu99 -Wall -Wextra -Wshadow -Wpedantic -Wconversion -Werror -g -fsanitize=address,undefined -Itoy_os/include \
