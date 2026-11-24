@@ -25,7 +25,7 @@ static int failures;
 		}                                                                                  \
 	} while (0)
 
-#define CELL(row, col) (vga_buf[GUARD + (row)*80 + (col)])
+#define CELL(row, col) (vga_buf[GUARD + (row) * 80 + (col)])
 #define CH(row, col)   ((char)(CELL(row, col) & 0xFF))
 #define ATTR(row, col) ((uint8_t)(CELL(row, col) >> 8))
 
