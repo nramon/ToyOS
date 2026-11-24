@@ -4,7 +4,7 @@ AS = $(CROSS)as
 
 BIN = toy_os.bin
 ISO = ../toy_os.iso
-OBJS = kernel/kernel.o arch/i386/boot.o arch/i386/tty.o
+OBJS = kernel/kernel.o arch/i386/boot.o arch/i386/tty.o arch/i386/serial.o
 DEPS = $(OBJS:.o=.d)
 
 CFLAGS = -std=gnu99 -ffreestanding -fno-stack-protector -O2 -g -Wall -Wextra -Werror -Iinclude

@@ -14,13 +14,18 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include <kernel/serial.h>
 #include <kernel/tty.h>
 
 /* Entry point. */
-void kernel_main()
+void kernel_main(void)
 {
 	const char *s = "Welcome to Toy OS!";
 
+	serial_init();
 	tty_init();
+
 	tty_puts(s);
+	serial_puts(s);
+	serial_puts("\r\nToy OS booted.\r\n");
 }
