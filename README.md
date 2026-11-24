@@ -4,9 +4,9 @@ Toy OS is a perpetual work-in-progress 16-bit x86 real mode operating system wri
 
 ## Building and running Toy OS on Linux
 
-To build Toy OS you will need an i686-elf cross-compiler. Go to the [OSDev wiki](http://wiki.osdev.org/GCC_Cross-Compiler) if you need help setting one up.
+`build.sh` uses a local i686-elf cross-compiler and *grub-mkrescue* if you have them. Otherwise it builds and runs everything inside Docker (or Podman) using the provided *Dockerfile*, so the only requirements are Docker/Podman and [QEMU](https://www.qemu.org) for *run.sh*. The first run compiles the cross-compiler into the `toyos-build` image, which takes 15-25 minutes; later runs reuse it.
 
-To use the provided *build.sh* and *run.sh* scripts you will also need *grub-mkrescue*, which is part of [GNU GRUB](https://www.gnu.org/software/grub/), and [QEMU](www.qemu.org).
+If you prefer a local toolchain, see the [OSDev wiki](http://wiki.osdev.org/GCC_Cross-Compiler), and install [GNU GRUB](https://www.gnu.org/software/grub/) for *grub-mkrescue*.
 
 From a terminal simply run:
 
