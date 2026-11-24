@@ -4,9 +4,15 @@ on:
   push:
   pull_request:
 
+# Cancel runs superseded by a newer push to the same branch or pull request.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - name: Install linters
@@ -15,10 +21,11 @@ jobs:
 
   build-and-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - name: Install QEMU
-        run: sudo apt-get update && sudo apt-get install -y qemu-system-x86
+      - name: Install QEMU and gcovr
+        run: sudo apt-get update && sudo apt-get install -y qemu-system-x86 gcovr
       - uses: docker/setup-buildx-action@v3
       # Build the cross-compiler image once and cache it, so that build.sh
       # finds it and does not compile GCC on every run.
@@ -30,3 +37,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - run: make test
+      - run: make coverage
+      - uses: codecov/codecov-action@v5
+        with:
+          files: coverage/coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false

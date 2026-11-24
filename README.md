@@ -1,4 +1,5 @@
 [![CI](https://github.com/nramon/ToyOS/actions/workflows/ci.yml/badge.svg)](https://github.com/nramon/ToyOS/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/nramon/ToyOS/graph/badge.svg)](https://codecov.io/gh/nramon/ToyOS)
 
 # What is Toy OS?
 

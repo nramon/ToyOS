@@ -1,0 +1,12 @@
+# Only the C sources that can run on the host (see tests/) are measured.
+# The boot code, the serial driver and the kernel entry point are exercised by
+# the QEMU smoke test instead, which does not produce coverage data.
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        target: auto
