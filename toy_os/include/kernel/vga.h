@@ -17,13 +17,14 @@
 #ifndef _VGA_H_
 #define _VGA_H_
 
+#include <stddef.h>
 #include <stdint.h>
 
 /* Get a color byte given the foreground and background colors. */
-#define VGA_COLOR(fg, bg) (fg | bg << 4)
+#define VGA_COLOR(fg, bg) ((uint8_t)((fg) | (bg) << 4))
 
 /* Get a character word given the character and the color. */
-#define VGA_CHAR(chr, col) (chr | col << 8)
+#define VGA_CHAR(chr, col) ((uint16_t)((uint8_t)(chr) | (uint16_t)(col) << 8))
 
 /* VGA color palette. */
 #define	COLOR_BLACK			0
@@ -48,6 +49,6 @@ static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
 
 /* Start address of the VGA text buffer */
-static uint16_t* const VGA_MEMORY = (uint16_t*)0xB8000; 
+static volatile uint16_t * const VGA_MEMORY = (volatile uint16_t *)0xB8000;
 
 #endif

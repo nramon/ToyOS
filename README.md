@@ -1,6 +1,6 @@
 # What is Toy OS?
 
-Toy OS is a perpetual work-in-progress 16-bit x86 real mode operating system written for learning purposes.
+Toy OS is a perpetual work-in-progress 32-bit x86 protected mode operating system written for learning purposes.
 
 ## Building and running Toy OS on Linux
 

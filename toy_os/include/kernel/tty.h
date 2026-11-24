@@ -21,6 +21,6 @@
 
 void tty_init(void);
 void tty_putc(char c);
-void tty_puts(char* s);
+void tty_puts(const char *s);
 
 #endif

@@ -1,4 +1,4 @@
-/* A simple real mode kernel.
+/* A simple protected mode kernel.
    Author:   Ramon Novoa <ramonnovoa@gmail.com>
   
    This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 /* Entry point. */
 void kernel_main()
 {
-	char *s = "Welcome to Toy OS!";
+	const char *s = "Welcome to Toy OS!";
 
 	tty_init();
 	tty_puts(s);
