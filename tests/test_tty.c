@@ -49,10 +49,10 @@ static int guards_intact(void)
 
 static int row_is(size_t row, const char *s)
 {
-	size_t len = strlen(s);
-
 	for (size_t col = 0; col < 80; col++) {
-		if (CH(row, col) != (col < len ? s[col] : ' ')) {
+		char want = *s ? *s++ : ' ';
+
+		if (CH(row, col) != want) {
 			return 0;
 		}
 	}
@@ -170,6 +170,8 @@ int main(void)
 		int before = failures;
 
 		tests[i].fn();
+		/* The test functions update the global through a function pointer. */
+		// cppcheck-suppress knownConditionTrueFalse
 		printf("%s: %s\n", failures == before ? "ok  " : "FAIL", tests[i].name);
 	}
 	printf("%s\n", failures ? "FAILED" : "PASS");
