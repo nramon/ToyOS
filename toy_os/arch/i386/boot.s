@@ -28,7 +28,7 @@
 .long CHECKSUM
 
 # Create a stack for the kernel.
-.section .kernel_stack
+.section .kernel_stack, "aw", @nobits
 	.skip 16384
 stack_top:
 

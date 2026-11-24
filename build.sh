@@ -4,7 +4,8 @@
 # If an i686-elf cross-compiler and grub-mkrescue are installed locally they are
 # used directly. Otherwise the build runs inside the Docker image defined by the
 # Dockerfile (built automatically the first time; this takes a while).
-cd "$(dirname "$0")" || exit 1
+set -euo pipefail
+cd "$(dirname "$0")"
 
 IMAGE=toyos-build
 
@@ -21,18 +22,5 @@ if ! command -v i686-elf-gcc >/dev/null || ! command -v grub-mkrescue >/dev/null
 		$IMAGE ./build.sh
 fi
 
-cd toy_os && make && cd .. || exit 1
-
-# Create the ISO and boot Toy OS with GRUB.
-mkdir -p isodir/boot/grub
-cp toy_os/toy_os.bin isodir/boot/
-cat << EOF2 > grub.cfg
-menuentry "Toy OS" {
-	multiboot /boot/toy_os.bin
-}
-EOF2
-mv grub.cfg isodir/boot/grub/grub.cfg
-grub-mkrescue -o toy_os.iso isodir
-
-# Clean up.
-rm -rf isodir
+cd toy_os
+make iso
