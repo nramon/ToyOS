@@ -10,5 +10,19 @@ If you prefer a local toolchain, see the [OSDev wiki](http://wiki.osdev.org/GCC_
 
 From a terminal simply run:
 
-    ./build.sh && ./run.sh
+    make run
+
+Other targets (see `make help`):
+
+| Target | Description |
+| --- | --- |
+| `make` | Build the kernel and `toy_os.iso`. |
+| `make test` | Boot the ISO headless in QEMU and check the serial and VGA output. |
+| `make lint` | Run *cppcheck*, *clang-format* (check only) and *shellcheck*. |
+| `make format` | Format the C sources with *clang-format*. |
+| `make clean` | Remove build outputs. |
+
+`./build.sh`, `./run.sh` and `./test.sh` can also be called directly.
+
+Kernel messages are also written to the first serial port (COM1), which is how `make test` checks the boot.
 

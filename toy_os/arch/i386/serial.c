@@ -20,25 +20,25 @@
 #define COM1 0x3F8
 
 /* Register offsets from the base port. */
-#define SERIAL_DATA		0	/* Data (DLAB=0) or divisor low byte (DLAB=1). */
-#define SERIAL_IER		1	/* Interrupt enable (DLAB=0) or divisor high byte (DLAB=1). */
-#define SERIAL_FCR		2	/* FIFO control. */
-#define SERIAL_LCR		3	/* Line control. */
-#define SERIAL_MCR		4	/* Modem control. */
-#define SERIAL_LSR		5	/* Line status. */
+#define SERIAL_DATA 0 /* Data (DLAB=0) or divisor low byte (DLAB=1). */
+#define SERIAL_IER  1 /* Interrupt enable (DLAB=0) or divisor high byte (DLAB=1). */
+#define SERIAL_FCR  2 /* FIFO control. */
+#define SERIAL_LCR  3 /* Line control. */
+#define SERIAL_MCR  4 /* Modem control. */
+#define SERIAL_LSR  5 /* Line status. */
 
-#define SERIAL_LSR_TX_EMPTY	0x20
+#define SERIAL_LSR_TX_EMPTY 0x20
 
 /* Initialize COM1 at 115200 baud, 8 data bits, no parity, one stop bit. */
 void serial_init(void)
 {
-	outb(COM1 + SERIAL_IER, 0x00);	/* Disable interrupts. */
-	outb(COM1 + SERIAL_LCR, 0x80);	/* Enable DLAB to set the divisor. */
-	outb(COM1 + SERIAL_DATA, 0x01);	/* Divisor 1 (low byte). */
-	outb(COM1 + SERIAL_IER, 0x00);	/* Divisor 1 (high byte). */
-	outb(COM1 + SERIAL_LCR, 0x03);	/* 8N1, DLAB off. */
-	outb(COM1 + SERIAL_FCR, 0xC7);	/* Enable and clear FIFOs. */
-	outb(COM1 + SERIAL_MCR, 0x03);	/* DTR and RTS. */
+	outb(COM1 + SERIAL_IER, 0x00);  /* Disable interrupts. */
+	outb(COM1 + SERIAL_LCR, 0x80);  /* Enable DLAB to set the divisor. */
+	outb(COM1 + SERIAL_DATA, 0x01); /* Divisor 1 (low byte). */
+	outb(COM1 + SERIAL_IER, 0x00);  /* Divisor 1 (high byte). */
+	outb(COM1 + SERIAL_LCR, 0x03);  /* 8N1, DLAB off. */
+	outb(COM1 + SERIAL_FCR, 0xC7);  /* Enable and clear FIFOs. */
+	outb(COM1 + SERIAL_MCR, 0x03);  /* DTR and RTS. */
 }
 
 /* Write a character to the serial port. */

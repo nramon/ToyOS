@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install linters
+        run: sudo apt-get update && sudo apt-get install -y cppcheck clang-format shellcheck
+      - run: make lint
+
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install QEMU
+        run: sudo apt-get update && sudo apt-get install -y qemu-system-x86
+      - uses: docker/setup-buildx-action@v3
+      # Build the cross-compiler image once and cache it, so that build.sh
+      # finds it and does not compile GCC on every run.
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          tags: toyos-build
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - run: make test
