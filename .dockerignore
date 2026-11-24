@@ -4,3 +4,4 @@
 *.iso
 *.d
 isodir
+tests/test_tty

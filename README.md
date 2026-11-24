@@ -1,3 +1,5 @@
+[![CI](https://github.com/nramon/ToyOS/actions/workflows/ci.yml/badge.svg)](https://github.com/nramon/ToyOS/actions/workflows/ci.yml)
+
 # What is Toy OS?
 
 Toy OS is a perpetual work-in-progress 32-bit x86 protected mode operating system written for learning purposes.
@@ -17,7 +19,8 @@ Other targets (see `make help`):
 | Target | Description |
 | --- | --- |
 | `make` | Build the kernel and `toy_os.iso`. |
-| `make test` | Boot the ISO headless in QEMU and check the serial and VGA output. |
+| `make unit` | Run the host-side unit tests for the tty driver. |
+| `make test` | Run the unit tests, then boot the ISO headless in QEMU and check the serial and VGA output. |
 | `make lint` | Run *cppcheck*, *clang-format* (check only) and *shellcheck*. |
 | `make format` | Format the C sources with *clang-format*. |
 | `make clean` | Remove build outputs. |

@@ -1,10 +1,10 @@
 # Entry point for building, running, testing and linting Toy OS.
 # Run `make help` to see the available targets.
 
-SOURCES = $(shell find toy_os -name '*.c' -o -name '*.h')
+SOURCES = $(shell find toy_os tests -name '*.c' -o -name '*.h')
 SCRIPTS = build.sh run.sh test.sh
 
-.PHONY: all run test lint format clean help
+.PHONY: all run unit test lint format clean help
 
 all: ## Build the kernel and the ISO (uses Docker if there is no local toolchain).
 	./build.sh
@@ -12,12 +12,17 @@ all: ## Build the kernel and the ISO (uses Docker if there is no local toolchain
 run: all ## Build and boot Toy OS in QEMU.
 	./run.sh
 
-test: all ## Boot Toy OS headless in QEMU and check its output.
+unit: ## Build and run the host-side unit tests.
+	$(CC) -std=gnu99 -Wall -Wextra -Werror -g -fsanitize=address,undefined -Itoy_os/include \
+		tests/test_tty.c -o tests/test_tty
+	./tests/test_tty
+
+test: unit all ## Run the unit tests, then boot Toy OS headless in QEMU and check its output.
 	./test.sh
 
 lint: ## Run cppcheck, clang-format (check only) and shellcheck.
 	cppcheck --enable=warning,style,performance,portability --error-exitcode=1 \
-		--inline-suppr --suppress=missingIncludeSystem -Itoy_os/include -q toy_os
+		--inline-suppr --suppress=missingIncludeSystem -Itoy_os/include -q toy_os tests
 	clang-format --dry-run --Werror $(SOURCES)
 	shellcheck $(SCRIPTS)
 
@@ -26,7 +31,7 @@ format: ## Format the C sources with clang-format.
 
 clean: ## Remove build outputs.
 	find toy_os \( -name '*.o' -o -name '*.d' -o -name 'toy_os.bin' \) -delete
-	rm -rf toy_os/isodir toy_os.iso
+	rm -rf toy_os/isodir toy_os.iso tests/test_tty
 
 help: ## Show this help.
 	@grep -E '^[a-z]+:.*## ' $(MAKEFILE_LIST) | sed 's/:.*## /\t/'

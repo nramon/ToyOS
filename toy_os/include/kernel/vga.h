@@ -48,7 +48,9 @@
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
 
-/* Start address of the VGA text buffer */
+/* Start address of the VGA text buffer. Can be overridden to test on the host. */
+#ifndef VGA_MEMORY
 static volatile uint16_t *const VGA_MEMORY = (volatile uint16_t *)0xB8000;
+#endif
 
 #endif
