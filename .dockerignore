@@ -5,3 +5,4 @@
 *.d
 isodir
 tests/test_tty
+coverage

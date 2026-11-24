@@ -7,7 +7,7 @@ ISO = ../toy_os.iso
 OBJS = kernel/kernel.o arch/i386/boot.o arch/i386/tty.o arch/i386/serial.o
 DEPS = $(OBJS:.o=.d)
 
-CFLAGS = -std=gnu99 -ffreestanding -fno-stack-protector -O2 -g -Wall -Wextra -Werror -Iinclude
+CFLAGS = -std=gnu99 -ffreestanding -fno-stack-protector -O2 -g -Wall -Wextra -Wshadow -Wpedantic -Wconversion -Werror -Iinclude
 
 .PHONY: all iso clean
 
