@@ -4,7 +4,7 @@
 SOURCES = $(shell find toy_os tests -name '*.c' -o -name '*.h')
 SCRIPTS = build.sh run.sh test.sh
 
-.PHONY: all run debug unit coverage test lint format clean help
+.PHONY: all run debug unit coverage test lint format hooks clean help
 
 all: ## Build the kernel and the ISO (uses Docker if there is no local toolchain).
 	./build.sh
@@ -39,6 +39,10 @@ lint: ## Run cppcheck, clang-format (check only) and shellcheck.
 
 format: ## Format the C sources with clang-format.
 	clang-format -i $(SOURCES)
+
+hooks: ## Install a git pre-commit hook that runs `make lint`.
+	printf '#!/bin/sh\nexec make lint\n' > .git/hooks/pre-commit
+	chmod +x .git/hooks/pre-commit
 
 clean: ## Remove build outputs.
 	find toy_os \( -name '*.o' -o -name '*.d' -o -name 'toy_os.bin' \) -delete
