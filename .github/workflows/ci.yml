@@ -41,5 +41,8 @@ jobs:
       - uses: codecov/codecov-action@v5
         with:
           files: coverage/coverage.xml
+          # Upload only the gcovr report, not the gcov files that the action
+          # would otherwise generate (which include the test file itself).
+          disable_search: true
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
